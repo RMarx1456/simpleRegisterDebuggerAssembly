@@ -31,11 +31,11 @@ section .data
 	
 
 	;Align stack
-
+	XOR RDX, RDX
 	MOV RDI, 0 ;register_hex & register_states pointer
 	MOV RSI, 15 ;register_hex char pointer	
 	CALL hex_loop
-	
+	XOR RDX, RDX
 	MOV RDI, 0 ;register_hex & register_states pointer
 	MOV RSI, 15 ;register_hex char pointer	
 	CALL hex_loop_2
@@ -141,8 +141,6 @@ section .data
 	MOV RDX, [register_states+3*8]
 	MOV RDI, [register_states+4*8]
 	MOV RSI, [register_states+5*8]
-	MOV RBP, [register_states+6*8]
-	MOV RSP, [register_states+7*8]
 	
 	MOV R8, [register_states_2+0*8]
 	MOV R9, [register_states_2+1*8]
@@ -152,6 +150,8 @@ section .data
 	MOV R13, [register_states_2+5*8]
 	MOV R14, [register_states_2+6*8]
 	MOV R15, [register_states_2+7*8]
+	
+	
 	
 	
 %ENDMACRO
@@ -170,8 +170,6 @@ section .data
 	PRINT_OFFSET_4 equ 15
 	PRINT_SPACE_2 equ 24
 	
-	debugger_statement_3 db 'XMM : 0x                                ', 0xA
-	
 	register_states dq 0, 0, 0, 0, 0, 0, 0, 0
 	register_hex dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	
@@ -188,8 +186,6 @@ section .data
 section .text
 
 	global _start
-	xmm_loop:
-		
 	hex_loop:
 		MOV RAX, [register_states+EDI*4]
 		MOV RBX, 16
@@ -230,6 +226,9 @@ section .text
 	
 		
 	_start:
+		MOV RDX, 16
+		DEBUG_REGISTERS
+	
 		MOV RAX, 1
 		MOV RDI, 1
 		MOV RSI, hex_chars
