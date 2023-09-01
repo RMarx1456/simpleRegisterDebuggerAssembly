@@ -11,7 +11,7 @@ section .data
 %MACRO DEBUG_REGISTERS 0
 ;Saving register values
 
-	MOV [register_states+ 0*8], RAX
+	MOV [register_states], RAX
 	MOV [register_states+1*8], RBX
 	MOV [register_states+2*8], RCX
 	MOV [register_states+3*8], RDX
@@ -19,6 +19,14 @@ section .data
 	MOV [register_states+5*8], RSI
 	MOV [register_states+6*8], RBP
 	MOV [register_states+7*8], RSP
+	MOV [saved_registers], RAX
+	MOV [saved_registers+1*8], RBX
+	MOV [saved_registers+2*8], RCX
+	MOV [saved_registers+3*8], RDX
+	MOV [saved_registers+4*8], RDI
+	MOV [saved_registers+5*8], RSI
+	MOV [saved_registers+6*8], RBP
+	MOV [saved_registers+7*8], RSP
 	
 	MOV [register_states_2+0*8], R8
 	MOV [register_states_2+1*8], R9
@@ -28,6 +36,14 @@ section .data
 	MOV [register_states_2+5*8], R13
 	MOV [register_states_2+6*8], R14
 	MOV [register_states_2+7*8], R15
+	MOV [saved_registers_2+0*8], R8
+	MOV [saved_registers_2+1*8], R9
+	MOV [saved_registers_2+2*8], R10
+	MOV [saved_registers_2+3*8], R11
+	MOV [saved_registers_2+4*8], R12
+	MOV [saved_registers_2+5*8], R13
+	MOV [saved_registers_2+6*8], R14
+	MOV [saved_registers_2+7*8], R15
 	
 
 	;Align stack
@@ -135,21 +151,21 @@ section .data
 	MOV RDX, debug_2_length
 	SYSCALL
 	
-	MOV RAX, [register_states+0*8]
-	MOV RBX, [register_states+1*8]
-	MOV RCX, [register_states+2*8]
-	MOV RDX, [register_states+3*8]
-	MOV RDI, [register_states+4*8]
-	MOV RSI, [register_states+5*8]
+	MOV RAX, [saved_registers+0*8]
+	MOV RBX, [saved_registers+1*8]
+	MOV RCX, [saved_registers+2*8]
+	MOV RDX, [saved_registers+3*8]
+	MOV RDI, [saved_registers+4*8]
+	MOV RSI, [saved_registers+5*8]
 	
-	MOV R8, [register_states_2+0*8]
-	MOV R9, [register_states_2+1*8]
-	MOV R10, [register_states_2+2*8]
-	MOV R11, [register_states_2+3*8]
-	MOV R12, [register_states_2+4*8]
-	MOV R13, [register_states_2+5*8]
-	MOV R14, [register_states_2+6*8]
-	MOV R15, [register_states_2+7*8]
+	MOV R8, [saved_registers_2+0*8]
+	MOV R9, [saved_registers_2+1*8]
+	MOV R10, [saved_registers_2+2*8]
+	MOV R11, [saved_registers_2+3*8]
+	MOV R12, [saved_registers_2+4*8]
+	MOV R13, [saved_registers_2+5*8]
+	MOV R14, [saved_registers_2+6*8]
+	MOV R15, [saved_registers_2+7*8]
 	
 	
 	
@@ -171,9 +187,11 @@ section .data
 	PRINT_SPACE_2 equ 24
 	
 	register_states dq 0, 0, 0, 0, 0, 0, 0, 0
+	saved_registers dq 0, 0, 0, 0, 0, 0, 0, 0
 	register_hex dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	
 	register_states_2 dq 0, 0, 0, 0, 0, 0, 0, 0
+	saved_registers_2 dq 0, 0, 0, 0, 0, 0, 0, 0
 	register_hex_2 dq 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 	
 	
